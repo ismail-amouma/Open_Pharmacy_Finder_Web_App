@@ -1,6 +1,6 @@
 # Open_Pharmacy_Finder_Web_App
 
-The Pharmacy Finder App is a Flask-based web application that allows users to find open pharmacies in a specified city and country. It utilizes the Google Places API to retrieve pharmacy information and presents it in a user-friendly format.
+The Pharmacy Finder App is a Flask-based web application that allows users to find open pharmacies in a specified city and country. It utilizes the Serper API to retrieve pharmacy information and presents it in a user-friendly format.
 
 ## Table of Contents
 
@@ -39,7 +39,7 @@ The Pharmacy Finder App is a Flask-based web application that allows users to fi
 
 ## Usage
 
-1. Obtain a Google Places API key by following the instructions on the [Google Places API documentation](https://developers.google.com/maps/documentation/places/web-service/get-api-key).
+1. Obtain a Serper API  key by following the instructions on the [Try 2,500 queries for free](https://serper.dev/).
 
 2. Replace `'YOUR_API_KEY'` in the `app.py` file with your actual Google Places API key:
 
@@ -57,7 +57,7 @@ The Pharmacy Finder App is a Flask-based web application that allows users to fi
 
 ## API Key
 
-In order to use the Pharmacy Finder App, you need to obtain an API key from the Google Places API. Follow the instructions provided by Google to generate an API key and ensure it is kept secure. Replace `'YOUR_API_KEY'` in the `app.py` file with your actual API key.
+In order to use the Pharmacy Finder App, you need to obtain an API key from the serpe API. Follow the instructions provided by serpe.dev to generate an API key and ensure it is kept secure. Replace `'YOUR_API_KEY'` in the `app.py` file with your actual API key.
 
 ## Contributing
 
