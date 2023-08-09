@@ -55,10 +55,6 @@ The Pharmacy Finder App is a Flask-based web application that allows users to fi
 
 4. Open your web browser and navigate to `http://localhost:5000` to use the Pharmacy Finder App.
 
-## API Key
-
-In order to use the Pharmacy Finder App, you need to obtain an API key from the serpe API. Follow the instructions provided by serpe.dev to generate an API key and ensure it is kept secure. Replace `'YOUR_API_KEY'` in the `app.py` file with your actual API key.
-
 ## Contributing
 
 Contributions to the Pharmacy Finder App are welcome! If you find a bug, want to add a feature, or improve the code, please feel free to open an issue or submit a pull request.
