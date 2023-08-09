@@ -1,4 +1,5 @@
 # Open_Pharmacy_Finder_Web_App
+![Untitled](https://github.com/ismail-amouma/Open_Pharmacy_Finder_Web_App/assets/91847466/c6bbe128-3aee-4537-9bcf-a8a082c19f3b)
 
 The Pharmacy Finder App is a Flask-based web application that allows users to find open pharmacies in a specified city and country. It utilizes the Serper API to retrieve pharmacy information and presents it in a user-friendly format.
 
