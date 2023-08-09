@@ -74,7 +74,7 @@ def get_data(city, country):
         "page": 15
     })
     headers = {
-        'X-API-KEY': '7c2f40906bd0002e966d962525bd66f830b80180',
+        'X-API-KEY': #Your API KEY HERE ,
         'Content-Type': 'application/json'
     }
 
