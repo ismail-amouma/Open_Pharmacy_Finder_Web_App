@@ -26,16 +26,11 @@ The Pharmacy Finder App is a Flask-based web application that allows users to fi
    git clone https://github.com/your-username/pharmacy-finder-app.git
    ```
 
-2. Change into the project directory:
+
+2. Install the required dependencies:
 
    ```bash
-   cd pharmacy-finder-app
-   ```
-
-3. Install the required dependencies:
-
-   ```bash
-   pip install -r requirements.txt
+   pip install flask
    ```
 
 ## Usage
