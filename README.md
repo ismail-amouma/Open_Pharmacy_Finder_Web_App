@@ -68,11 +68,3 @@ Contributions to the Pharmacy Finder App are welcome! If you find a bug, want to
 3. Make your changes and commit them: `git commit -m "Description of changes"`.
 4. Push to the branch: `git push origin feature/my-feature`.
 5. Open a pull request.
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-Feel free to customize this README to provide more specific information about your application. If you have any questions or need further assistance, please don't hesitate to reach out. Happy coding!
