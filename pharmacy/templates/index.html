@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Open Pharmacy Finder</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: sans-serif;
+            color: #333;
+        }
+        .logo {
+            width: 60px;
+            margin: auto;
+            display: block;
+            align-items: center;
+        }
+        .container {
+            margin-top: 2rem;
+        }
+        .table-container {
+            margin-top: 1rem;
+        }
+        /* Add the provided CSS styles here */
+        .styled-table {
+            border: none;
+            border-collapse: collapse;
+            margin: 20px auto;
+            padding: 5px;
+            font-size: 0.9em;
+            font-family: sans-serif;
+            width: 100%;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.20);
+            border-radius: 10px;
+        }
+        .styled-table thead tr {
+            border-top-left-radius: 10px;
+            border-bottom-left-radius: 10px;
+            background-color: #009879;
+            color: #fff;
+            text-align: center;
+            border: none;
+        }
+        .styled-table th,
+        .styled-table td {
+            padding: 10px 15px;
+            border: none;
+        }
+        .styled-table tbody tr {
+            border-bottom: 1px solid #fff;
+        }
+        .styled-table tbody tr:nth-of-type(odd) {
+            background-color: #fff;
+        }
+        .styled-table tbody tr:nth-of-type(even) {
+            background-color: #f3f3f3;
+        }
+        .styled-table tbody tr:last-of-type {
+            border-bottom: 2px solid #f3f3f3;
+            border: none;
+        }
+        .btn {
+        padding: 5px 8px;
+        background-color: #1BBA93;
+        font-size: 17px;
+        border: none;
+        border-radius: 8px;
+        color: #ecfffa;
+        cursor: pointer;
+        align-items: center;
+        display: block;
+        margin: 20px auto;
+    }
+    .h2{
+        text-align: center;
+        
+    }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="{{ url_for('static', filename='your_logo.png') }}" alt="Logo"  class="logo">
+        <h1 class="text-center">Open Pharmacy Finder</h1>
+        <form method="post">
+            <div class="mb-3">
+                <label for="country" class="form-label">Select a country:</label>
+                <select class="form-select" id="country" name="country">
+                    {% for code, country in countries.items() %}
+                        <option value="{{ code }}">{{ country }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div >
+                <label for="city" class="form-label">Select a city:</label>
+                <select class="form-select" id="city" name="city"></select>
+            </div>
+            <button type="submit" class="btn">Search</button>
+        </form>
+        {% if pharmacies %}
+            <h2 class="text-center" >Pharmacies:</h2>
+            <table class='styled-table'>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Address</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pharmacy in pharmacies %}
+                        <tr>
+                            <td>{{ pharmacy.title }}</td>
+                            <td><a href="{{ pharmacy.mapsLink }}" target="_blank">{{ pharmacy.address }}</a></td>
+                            <td>{{ pharmacy.phoneNumber }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+    <script>
+        const citiesByCountry = {
+    "us": ["New York", "Los Angeles", "Chicago", "Houston", "Philadelphia", "Phoenix", "San Antonio", "San Diego", "Dallas", "San Jose", "Austin", "Jacksonville", "Fort Worth", "Columbus", "Charlotte"],
+    "ca": ["Toronto", "Montreal", "Vancouver", "Calgary", "Edmonton", "Ottawa", "Quebec City", "Winnipeg", "Hamilton", "Kitchener", "London", "Victoria", "Halifax", "Saskatoon", "Windsor"],
+    "uk": ["London", "Birmingham", "Manchester", "Glasgow", "Liverpool", "Edinburgh", "Leeds", "Bristol", "Sheffield", "Newcastle", "Cardiff", "Belfast", "Southampton", "Nottingham", "Leicester"],
+    "au": ["Sydney", "Melbourne", "Brisbane", "Perth", "Adelaide", "Gold Coast", "Newcastle", "Canberra", "Sunshine Coast", "Wollongong", "Geelong", "Hobart", "Townsville", "Cairns", "Darwin"],
+    "nz": ["Auckland", "Wellington", "Christchurch", "Hamilton", "Tauranga", "Napier", "Dunedin", "Palmerston North", "Nelson", "Rotorua", "New Plymouth", "Whangarei", "Invercargill", "Whanganui", "Gisborne"],
+    "ie": ["Dublin", "Cork", "Limerick", "Galway", "Waterford", "Drogheda", "Dundalk", "Bray", "Swords", "Navan", "Ennis", "Kilkenny", "Tralee", "Carlow", "Newbridge"],
+    "in": ["Mumbai", "Delhi", "Bangalore", "Hyderabad", "Ahmedabad", "Chennai", "Kolkata", "Pune", "Surat", "Jaipur", "Lucknow", "Kanpur", "Nagpur", "Indore", "Thane"],
+    "jp": ["Tokyo", "Yokohama", "Osaka", "Nagoya", "Sapporo", "Fukuoka", "Kobe", "Kyoto", "Kawasaki", "Saitama", "Hiroshima", "Sendai", "Chiba", "Kitakyushu", "Sakai"],
+    "cn": ["Shanghai", "Beijing", "Guangzhou", "Shenzhen", "Chengdu", "Chongqing", "Tianjin", "Wuhan", "Nanjing", "Hangzhou", "Xi'an", "Harbin", "Suzhou", "Shenyang", "Dalian"],
+    "fr": ["Paris", "Marseille", "Lyon", "Toulouse", "Nice", "Nantes", "Strasbourg", "Montpellier", "Bordeaux", "Lille", "Rennes", "Reims", "Le Havre", "Cergy-Pontoise", "Saint-Étienne"],
+    "de": ["Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt", "Stuttgart", "Düsseldorf", "Dortmund", "Essen", "Leipzig", "Bremen", "Dresden", "Hanover", "Nuremberg", "Duisburg"],
+    "it": ["Rome", "Milan", "Naples", "Turin", "Palermo", "Genoa", "Bologna", "Florence", "Bari", "Catania", "Venice", "Verona", "Messina", "Padua", "Trieste"],
+    "es": ["Madrid", "Barcelona", "Valencia", "Seville", "Zaragoza", "Malaga", "Murcia", "Palma de Mallorca", "Las Palmas", "Bilbao", "Alicante", "Cordoba", "Valladolid", "Vigo", "Gijon"],
+    "mx": ["Mexico City", "Guadalajara", "Monterrey", "Puebla", "Tijuana", "Leon", "Juarez", "Zapopan", "Naucalpan", "Merida", "San Luis Potosi", "Aguascalientes", "Hermosillo", "Saltillo", "Mexicali"],
+    "br": ["Sao Paulo", "Rio de Janeiro", "Brasilia", "Salvador", "Fortaleza", "Belo Horizonte", "Manaus", "Curitiba", "Recife", "Porto Alegre", "Belém", "Goiânia", "Guarulhos", "Campinas", "Nova Iguaçu"],
+    "ar": ["Buenos Aires", "Cordoba", "Rosario", "Mendoza", "San Miguel de Tucuman", "La Plata", "Mar del Plata", "Salta", "Santa Fe", "San Juan", "Resistencia", "Neuquen", "Corrientes", "Santiago del Estero", "Posadas"],
+    "za": ["Johannesburg", "Cape Town", "Durban", "Pretoria", "Port Elizabeth", "Bloemfontein", "East London", "Polokwane", "Nelspruit", "Kimberley", "Mahikeng", "Mthatha", "Rustenburg", "Welkom", "Vryheid"],
+    "eg": ["Cairo", "Alexandria", "Giza", "Shubra El Kheima", "Port Said", "Suez", "El Mahalla El Kubra", "Luxor", "Assiut", "Zagazig", "Aswan", "Damietta", "Mansoura", "Tanta", "Fayyum"],
+    "ng": ["Lagos", "Kano", "Ibadan", "Kaduna", "Port Harcourt", "Benin City", "Maiduguri", "Zaria", "Aba", "Jos", "Ilorin", "Oyo", "Enugu", "Abeokuta", "Abuja"],
+    "ke": ["Nairobi", "Mombasa", "Kisumu", "Nakuru", "Eldoret", "Thika", "Kisii", "Nyeri", "Malindi", "Kitale", "Garissa", "Kakamega", "Nandi Hills", "Meru", "Machakos"],
+    "sa": ["Riyadh", "Jeddah", "Mecca", "Medina", "Dammam", "Khobar", "Tabuk", "Ha'il", "Khamis Mushait", "Buraidah", "Khafji", "Yanbu", "Abha", "Taif", "Hafar Al-Batin"],
+    "ae": ["Dubai", "Abu Dhabi", "Sharjah", "Al Ain", "Ajman", "Ras Al Khaimah", "Fujairah", "Umm Al Quwain", "Khor Fakkan", "Dibba Al-Fujairah", "Dibba Al-Hisn", "Hatta", "Liwa Oasis"],
+    "kw": ["Kuwait City", "Farwaniya", "Salwa", "Jahra", "Hawally", "Salmiya", "Ahmadi", "Sabah Al Salem", "Rumaithiya", "Subah Al Salem", "Adailiya", "Mubarak Al Kabeer", "Mishref", "Qurtubah", "Khaitan"],
+    "qa": ["Doha", "Al Wakrah", "Al Rayyan", "Umm Salal", "Al Khor", "Mesaieed", "Al Daayen", "Lusail"],
+    "tr": ["Istanbul", "Ankara", "Izmir", "Bursa", "Adana", "Gaziantep", "Antalya", "Konya", "Mersin", "Diyarbakir", "Kayseri", "Eskisehir", "Sanliurfa", "Malatya", "Erzurum"],
+    "th": ["Bangkok", "Chiang Mai", "Phuket", "Pattaya", "Hat Yai", "Udon Thani", "Nakhon Ratchasima", "Nonthaburi", "Khon Kaen", "Pak Kret", "Si Racha", "Chaophraya Surasak", "Ubon Ratchathani", "Samut Prakan", "Krabi"],
+    "vn": ["Ho Chi Minh City", "Hanoi", "Da Nang", "Hai Phong", "Can Tho", "Bien Hoa", "Nha Trang", "Buon Ma Thuot", "Hue", "Thanh Hoa", "Rach Gia", "Vung Tau", "Hai Duong", "Quy Nhon", "Cam Ranh"],
+    "sg": ["Singapore"],
+    "id": ["Jakarta", "Surabaya", "Bandung", "Medan", "Semarang", "Palembang", "Tangerang", "Depok", "Makassar", "South Tangerang", "Batam", "Padang", "Denpasar", "Bandar Lampung", "Bogor"],
+    "ph": ["Manila", "Quezon City", "Davao City", "Cebu City", "Zamboanga City", "Taguig", "Antipolo", "Pasig", "Cagayan de Oro", "Parañaque", "Dasmarinas", "Valenzuela", "Bacoor", "General Santos", "Las Pinas"],
+    "my": ["Kuala Lumpur", "George Town", "Ipoh", "Shah Alam", "Petaling Jaya", "Johor Bahru", "Kota Kinabalu", "Malacca City", "Kuantan", "Kuala Terengganu", "Alor Setar", "Seremban", "Miri", "Taiping", "Kulim"],
+    "pk": ["Karachi", "Lahore", "Faisalabad", "Rawalpindi", "Multan", "Gujranwala", "Peshawar", "Quetta", "Sialkot", "Bahawalpur", "Sargodha", "Sukkur", "Jhang", "Sheikhupura", "Larkana"],
+    "bd": ["Dhaka", "Chittagong", "Khulna", "Rajshahi", "Sylhet", "Barisal", "Rangpur", "Comilla", "Narayanganj", "Mymensingh"],
+    "lk": ["Colombo", "Kandy", "Galle", "Negombo", "Jaffna", "Moratuwa", "Anuradhapura", "Trincomalee", "Kalmunai", "Gampaha"],
+    "np": ["Kathmandu", "Pokhara", "Lalitpur", "Bharatpur", "Biratnagar", "Janakpur", "Hetauda", "Nepalgunj", "Itahari"],
+    "ua": ["Kyiv", "Kharkiv", "Dnipro", "Odessa", "Donetsk", "Zaporizhzhia", "Lviv", "Kryvyi Rih", "Mykolaiv", "Mariupol"],
+    "ru": ["Moscow", "Saint Petersburg", "Novosibirsk", "Yekaterinburg", "Nizhny Novgorod", "Kazan", "Chelyabinsk", "Omsk", "Samara", "Rostov-on-Don"],
+    "pl": ["Warsaw", "Krakow", "Wroclaw", "Poznan", "Gdansk", "Szczecin", "Bydgoszcz", "Lublin", "Katowice", "Bialystok"],
+    "se": ["Stockholm", "Gothenburg", "Malmo", "Uppsala", "Vasteras", "Orebro", "Linkoping", "Helsingborg", "Jonkoping"],
+    "no": ["Oslo", "Bergen", "Trondheim", "Stavanger", "Drammen", "Fredrikstad", "Kristiansand", "Sandnes", "Tromso"],
+    "dk": ["Copenhagen", "Aarhus", "Odense", "Aalborg", "Esbjerg", "Randers", "Kolding", "Horsens"],
+    "fi": ["Helsinki", "Espoo", "Tampere", "Vantaa", "Oulu", "Turku", "Jyvaskyla", "Lahti"],
+    "nl": ["Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Eindhoven", "Tilburg", "Groningen", "Almere"],
+    "be": ["Brussels", "Antwerp", "Ghent", "Charleroi", "Liege", "Bruges", "Namur", "Leuven"],
+    "ch": ["Zurich", "Geneva", "Basel", "Lausanne", "Bern", "Lucerne", "St. Gallen", "Lugano"],
+    "at": ["Vienna", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt", "Villach"],
+    "gr": ["Athens", "Thessaloniki", "Patras", "Heraklion", "Larissa", "Volos", "Ioannina"],
+    "hu": ["Budapest", "Debrecen", "Szeged", "Miskolc", "Pecs", "Gyor", "Nyiregyhaza"],
+    "ma": ["Casablanca", "Rabat", "Marrakech", "Fes", "Tangier", "Agadir", "Meknes", "Oujda", "Kenitra", "Tetouan", "Safi", "Salé", "El Jadida", "Mohammedia", "Nador"],
+
+    // Add more countries and cities as needed
+};
+
+        const countrySelect = document.getElementById("country");
+        const citySelect = document.getElementById("city");
+
+        countrySelect.addEventListener("change", () => {
+            const selectedCountry = countrySelect.value;
+            const cities = citiesByCountry[selectedCountry];
+            citySelect.innerHTML = "";
+            cities.forEach(city => {
+                const option = document.createElement("option");
+                option.value = city;
+                option.textContent = city;
+                citySelect.appendChild(option);
+            });
+        });
+    </script>
+</body>
+</html>
